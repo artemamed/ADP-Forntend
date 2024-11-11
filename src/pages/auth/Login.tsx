@@ -160,22 +160,26 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <div className="hidden lg:block ">
-          <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-3 gap-4 h-10">
+
+
+
+        <div className="hidden lg:block">
+          <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-3 gap-4 h-screen overflow-hidden">
             <motion.div
               initial={{ y: 0 }}
               animate={{
-                y: '-90%',
+                y: ['0%', '-100%'], // Animate the Y position from 0 to -100%, creating a smooth scroll
               }}
               transition={{
-                duration: 8,
-                repeat: Infinity,
-                repeatType: 'loop',
-                ease: 'linear',
+                duration: 300, // Duration for the entire scroll, adjust as needed
+                repeat: Infinity, // Infinite loop
+                repeatType: 'loop', // Seamless looping, no reverse
+                ease: 'linear', // Constant, linear motion for smooth scrolling
               }}
               className="flex flex-col gap-4"
             >
-              {images.map((image, index) => (
+              {/* Render the images twice to ensure seamless looping */}
+              {[...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images].map((image, index) => (
                 <img
                   key={index}
                   className="h-fit max-w-full rounded-lg"
@@ -184,42 +188,22 @@ const Login = () => {
                 />
               ))}
             </motion.div>
-            <motion.div
-              initial={{ y: '-90%' }}
-              animate={{
-                y: '0',
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                repeatType: 'loop',
-                ease: 'linear',
-              }}
-              className="flex flex-col gap-4"
-            >
-              {images.map((image, index) => (
-                <img
-                  key={index}
-                  className="h-fit max-w-full rounded-lg"
-                  src={image.src}
-                  alt={image.alt}
-                />
-              ))}
-            </motion.div>
+
             <motion.div
               initial={{ y: 0 }}
               animate={{
-                y: '-90%',
+                y: ['-50%', '0%'], // Animate the Y position from 0 to -100%, creating a smooth scroll
               }}
               transition={{
-                duration: 8,
-                repeat: Infinity,
-                repeatType: 'loop',
-                ease: 'linear',
+                duration: 250, // Duration for the entire scroll, adjust as needed
+                repeat: Infinity, // Infinite loop
+                repeatType: 'loop', // Seamless looping, no reverse
+                ease: 'linear', // Constant, linear motion for smooth scrolling
               }}
               className="flex flex-col gap-4"
             >
-              {images.map((image, index) => (
+              {/* Render the images twice to ensure seamless looping */}
+              {[...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images].map((image, index) => (
                 <img
                   key={index}
                   className="h-fit max-w-full rounded-lg"
@@ -228,84 +212,41 @@ const Login = () => {
                 />
               ))}
             </motion.div>
-            {/* <div className="grid gap-4 overflow-hidden h-screen">
-              <div>
+
+            <motion.div
+              initial={{ y: 0 }}
+              animate={{
+                y: ['0%', '-100%'], // Animate the Y position from 0 to -100%, creating a smooth scroll
+              }}
+              transition={{
+                duration: 300, // Duration for the entire scroll, adjust as needed
+                repeat: Infinity, // Infinite loop
+                repeatType: 'loop', // Seamless looping, no reverse
+                ease: 'linear', // Constant, linear motion for smooth scrolling
+              }}
+              className="flex flex-col gap-4"
+            >
+              {/* Render the images twice to ensure seamless looping */}
+              {[...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images].map((image, index) => (
                 <img
+                  key={index}
                   className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg"
-                  alt=""
+                  src={image.src}
+                  alt={image.alt}
                 />
-              </div>
-              <div>
-                <img
-                  className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg"
-                  alt=""
-                />
-              </div>
-            </div> */}
-            {/* <div className="grid gap-4 overflow-hidden h-fit">
-              <div>
-                <img
-                  className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div className="grid gap-4 overflow-hidden">
-              <div>
-                <img
-                  className="h-auto max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  className="h-auto max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  className="h-auto max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg"
-                  alt=""
-                />
-              </div>
-            </div> */}
+              ))}
+            </motion.div>
           </div>
         </div>
+
+
+
+
+
+
+
+
+
       </div>
     </>
   );
