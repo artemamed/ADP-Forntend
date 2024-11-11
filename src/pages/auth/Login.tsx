@@ -1,8 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import LightLoginBg from '@/assets/auth/login/loginbg.png';
-import DarkLoginBg from '@/assets/auth/login/loginbg.jpeg';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { LoginFormValues, loginSchema } from '@/types/auth';
@@ -10,19 +8,16 @@ import React from 'react';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Icons } from '@/components/icons';
 import { toast } from 'sonner';
-import GoogleSVG from '@/assets/icons/google.svg';
 import { useAppDispatch } from '@/store';
 import { loginUser } from '@/store/features/auth.slice';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { axiosInstance } from '@/lib/axios';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const [isLoading, SetIsLoading] = React.useState<boolean>(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   // Handle the Input credentials for the login form
   const {
     register,
@@ -52,47 +47,28 @@ const Login = () => {
     }
   };
 
-  // const HandleCredentialLogin = async (data: LoginFormValues) => {
-  //   SetIsLoading(true);
-  //   try {
-  //     await axiosInstance.post(
-  //       `/auth/login?redirect_url=${import.meta.env.VITE_LOGIN_REDIRECT_URL}`,
-  //       {
-  //         ...data,
-  //       },
-  //       // {
-  //       //   headers: {
-  //       //     'Content-Type': 'application/json',
-  //       //     'x-login-type': 'local',
-  //       //   },
-  //       // },
-  //     );
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       toast.error(error.response?.data?.message || 'Login failed');
-  //     } else {
-  //       toast.error('An unexpected error occurred');
-  //     }
-  //     SetIsLoading(false);
-  //   }
-  // };
-
-  // const HandleGoogleLogin = () => {
-  //   window.location.href = `http://localhost:5000/api/auth/login/google?redirect_url=${
-  //     import.meta.env.VITE_LOGIN_REDIRECT_URL
-  //   }`;
-  // };
-
-  // React.useEffect(() => {
-  //   const url = new URL(window.location.href);
-  //   const error = url.searchParams.get('error');
-
-  //   if (!error) {
-  //     return;
-  //   } else {
-  //     toast.error(error);
-  //   }
-  // }, []);
+  const images = [
+    {
+      src: 'https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg',
+      alt: '',
+    },
+    {
+      src: 'https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg',
+      alt: '',
+    },
+    {
+      src: 'https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg',
+      alt: '',
+    },
+    {
+      src: 'https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg',
+      alt: '',
+    },
+    {
+      src: 'https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg',
+      alt: '',
+    },
+  ];
 
   return (
     <>
@@ -181,63 +157,78 @@ const Login = () => {
                   Login
                 </Button>
               </form>
-              {/* <div>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  size={'sm'}
-                  disabled={isSubmitting || isLoading}
-                  onClick={HandleGoogleLogin}
-                >
-                  <img src={GoogleSVG} alt="Google" className="mr-2 h-4 w-4" />
-                  Login with Google
-                </Button>
-              </div> */}
             </div>
           </div>
         </div>
-         <div className="hidden lg:block">
-          {/* <img
-            src={`${LightLoginBg}`}
-            alt="Image"
-            width="1920"
-            height="1080"
-            className="dark:hidden h-screen w-full object-cover "
-          /> */}
-          <img
-            src={`${DarkLoginBg}`}
-            alt="Image"
-            width="1920"
-            height="1080"
-            className=" h-screen w-full object-cover shadow-xl shadow-black/30"
-          />
-        </div> 
-        {/* <div className="hidden lg:block ">
+        <div className="hidden lg:block ">
           <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-3 gap-4 h-10">
-            <div className="grid gap-4 overflow-hidden h-screen">
-              <div>
+            <motion.div
+              initial={{ y: 0 }}
+              animate={{
+                y: '-90%',
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                repeatType: 'loop',
+                ease: 'linear',
+              }}
+              className="flex flex-col gap-4"
+            >
+              {images.map((image, index) => (
                 <img
+                  key={index}
                   className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg"
-                  alt=""
+                  src={image.src}
+                  alt={image.alt}
                 />
-              </div>
-              <div>
+              ))}
+            </motion.div>
+            <motion.div
+              initial={{ y: '-90%' }}
+              animate={{
+                y: '0',
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                repeatType: 'loop',
+                ease: 'linear',
+              }}
+              className="flex flex-col gap-4"
+            >
+              {images.map((image, index) => (
                 <img
+                  key={index}
                   className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg"
-                  alt=""
+                  src={image.src}
+                  alt={image.alt}
                 />
-              </div>
-              <div>
+              ))}
+            </motion.div>
+            <motion.div
+              initial={{ y: 0 }}
+              animate={{
+                y: '-90%',
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                repeatType: 'loop',
+                ease: 'linear',
+              }}
+              className="flex flex-col gap-4"
+            >
+              {images.map((image, index) => (
                 <img
+                  key={index}
                   className="h-fit max-w-full rounded-lg"
-                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg"
-                  alt=""
+                  src={image.src}
+                  alt={image.alt}
                 />
-              </div>
-            </div>
-            <div className="grid gap-4 overflow-hidden h-screen">
+              ))}
+            </motion.div>
+            {/* <div className="grid gap-4 overflow-hidden h-screen">
               <div>
                 <img
                   className="h-fit max-w-full rounded-lg"
@@ -259,8 +250,15 @@ const Login = () => {
                   alt=""
                 />
               </div>
-            </div>
-            <div className="grid gap-4 overflow-hidden h-fit">
+              <div>
+                <img
+                  className="h-fit max-w-full rounded-lg"
+                  src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg"
+                  alt=""
+                />
+              </div>
+            </div> */}
+            {/* <div className="grid gap-4 overflow-hidden h-fit">
               <div>
                 <img
                   className="h-fit max-w-full rounded-lg"
@@ -283,7 +281,7 @@ const Login = () => {
                 />
               </div>
             </div>
-            {/* <div className="grid gap-4 overflow-hidden">
+            <div className="grid gap-4 overflow-hidden">
               <div>
                 <img
                   className="h-auto max-w-full rounded-lg"
@@ -306,8 +304,8 @@ const Login = () => {
                 />
               </div>
             </div> */}
-          {/* </div> */}
-        {/* </div>  */}
+          </div>
+        </div>
       </div>
     </>
   );

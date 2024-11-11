@@ -19,7 +19,7 @@ const Profile = () => {
             <div className="w-36 h-36 border-8 border-white bg-primary dark:border-background rounded-full overflow-hidden">
               <img
                 className="object-cover object-center h-full w-full"
-                src={UserAvatars.male.greyhairboy}
+                src={UserAvatars[0]} 
                 alt={data.name.firstName}
               />
             </div>

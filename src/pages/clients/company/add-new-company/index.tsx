@@ -24,6 +24,15 @@ import RegionSelect from '@/components/ui/region-select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { AlertDialogHeader } from '@/components/ui/alert-dialog';
+import { UserAvatars } from '@/constants/Avatars';
 
 // Initialize the phone number utility
 const phoneUtil = PhoneNumberUtil.getInstance();
@@ -51,6 +60,7 @@ const NewCompanySchema = z.object({
   password: z.string().min(5, 'Password must be at least 5 characters'),
   gender: z.enum(['male', 'female', 'other']).optional(),
   phoneNumber: phoneNumberSchema,
+  avatar: z.string().default('blueEverywhere'),
   country: z.string().min(1, 'Country is required'),
   state: z.string().min(1, 'State is required'),
   city: z.string().min(1, 'City is required'),
@@ -66,6 +76,7 @@ const NewCompanySchema = z.object({
 type Company = z.infer<typeof NewCompanySchema>;
 
 const AddNewCompany = () => {
+  const [Logo, setLogo] = React.useState(UserAvatars[0]);
   const { register, handleSubmit, watch, control, setValue, getValues } =
     useForm<Company>({
       resolver: zodResolver(NewCompanySchema),
@@ -226,6 +237,58 @@ const AddNewCompany = () => {
                       />
                     )}
                   />
+                </div>
+              </div>
+              <div className="sm:col-span-6">
+                <Label
+                  htmlFor="avatar"
+                  className=" text-sm font-medium leading-6 "
+                >
+                  Avatar
+                </Label>
+                <div className="mt-2">
+                  <Dialog>
+                    <DialogTrigger>
+                      {' '}
+                      <img
+                        src={`${Logo}`}
+                        alt="selected-avatar"
+                        className="rounded-full object-contain object-center w-16 h-16"
+                        width={200}
+                        height={200}
+                      />
+                    </DialogTrigger>
+                    <DialogContent className="max-w-sm">
+                      <AlertDialogHeader>
+                        <DialogTitle className="text-center">Select Your Favorite Avatar</DialogTitle>
+                        <DialogDescription className="text-center">
+                          Soon we will add more avatars
+                        </DialogDescription>
+                        <div className="grid grid-cols-4 gap-4 py-2">
+                          {UserAvatars.map((logo, logoKey) => (
+                            <div key={logoKey} className="relative">
+                              <img
+                                src={logo}
+                                alt={'user-avatar'}
+                                className={`rounded-2xl object-contain object-center ${
+                                  Logo === logo
+                                    ? 'border-4 border-primary'
+                                    : 'border-4 border-transparent'
+                                }`}
+                                width={200}
+                                id="avatar"
+                                height={200}
+                                onClick={() => {
+                                  setLogo(logo);
+                                  setValue('avatar', logo);
+                                }}
+                              />{' '}
+                            </div>
+                          ))}
+                        </div>
+                      </AlertDialogHeader>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </div>

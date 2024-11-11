@@ -26,8 +26,7 @@ const SidebarProfile = () => {
             <MenubarTrigger className="p-0 ">
               <Avatar>
                 <AvatarImage
-                  // src={`${user.image}`}
-                  src={UserAvatars.male.blueEverywhere}
+                  src={UserAvatars[0]} 
                   alt="user-logo"
                   className=""
                   width={50}
