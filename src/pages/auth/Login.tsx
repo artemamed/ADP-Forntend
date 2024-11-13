@@ -178,7 +178,6 @@ const Login = () => {
               }}
               className="flex flex-col gap-4"
             >
-              {/* Render the images twice to ensure seamless looping */}
               {[...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images, ...images].map((image, index) => (
                 <img
                   key={index}

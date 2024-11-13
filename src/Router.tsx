@@ -17,6 +17,7 @@ import SubCategories from './pages/catalog/sub-categories';
 import Categories from './pages/catalog/categories';
 import CompanyProfile from './pages/clients/company/profile';
 import AddNewCompany from './pages/clients/company/add-new-company';
+import EditCompanyProfile from './pages/clients/company/profile/edit';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
           {
             path: 'clients/company/profile/:serialCode',
             element: <CompanyProfile />,
+          },
+          {
+            path: 'clients/company/profile/:serialCode/edit',
+            element: <EditCompanyProfile />,
           },
           {
             path: 'clients/company/add-new-company',

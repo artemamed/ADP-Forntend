@@ -33,11 +33,11 @@ import {
 } from '@/components/ui/dialog';
 import { AlertDialogHeader } from '@/components/ui/alert-dialog';
 import { UserAvatars } from '@/constants/Avatars';
-import { Company, NewCompanySchema } from './client-form.types';
 import { useClients } from '@/hooks/useClients';
 import axios from 'axios';
+import { Company, NewCompanySchema } from '../../add-new-company/client-form.types';
 
-const AddNewCompany = () => {
+const EditCompanyProfile = () => {
   const { addClient } = useClients();
   const [Logo, setLogo] = React.useState(UserAvatars[0]);
   const { register, handleSubmit, watch, control, setValue, reset } =
@@ -409,7 +409,7 @@ const AddNewCompany = () => {
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
           <Button type="submit" variant={'default'} size={'lg'}>
-            Create
+            Update Profile
           </Button>
         </div>
       </form>
@@ -417,4 +417,4 @@ const AddNewCompany = () => {
   );
 };
 
-export default AddNewCompany;
+export default EditCompanyProfile;
