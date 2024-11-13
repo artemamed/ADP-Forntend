@@ -10,7 +10,7 @@ const phoneNumberSchema = z.string().refine(
     try {
       const phoneNumber = phoneUtil.parseAndKeepRawInput(value);
       return phoneUtil.isValidNumber(phoneNumber);
-    } catch (error) {
+    } catch {
       return false;
     }
   },

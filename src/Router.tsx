@@ -17,6 +17,7 @@ import SubCategories from './pages/catalog/sub-categories';
 import Categories from './pages/catalog/categories';
 import CompanyProfile from './pages/clients/company/profile';
 import AddNewCompany from './pages/clients/company/add-new-company';
+import AddNewCategory from './pages/catalog/categories/add-new-category';
 import EditCompanyProfile from './pages/clients/company/profile/edit';
 
 const router = createBrowserRouter([
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
           {
             path: 'clients/company/add-new-company',
             element: <AddNewCompany />,
+          },
+          {
+            path: 'catalog/categories/add-new-category',
+            element: <AddNewCategory />,
           },
           {
             path: 'teams/operators',
