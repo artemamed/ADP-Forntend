@@ -1,21 +1,21 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
+import axios from 'axios';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { CirclePlus } from 'lucide-react';
 
 // Schema for form validation
 const CategorySchema = z.object({
   categoryName: z.string().min(1, 'Category Name is required'),
   categoryTitle: z.string().min(1, 'Category Title is required'),
   categoryDescription: z.string().min(1, 'Category Description is required'),
-  image: z.any().optional(),
   metadata: z.array(
     z.object({
       metaTitle: z.string().optional(),
@@ -25,16 +25,18 @@ const CategorySchema = z.object({
   ),
 });
 
-const AddNewCategory: React.FC = () => {
-  const navigate = useNavigate();
+type CategoryFormData = z.infer<typeof CategorySchema>;
 
-  const { register, handleSubmit, control, formState: { errors }, reset } = useForm({
+const EditCategory = () => {
+  const navigate = useNavigate();
+  const { categoryId } = useParams<{ categoryId: string }>();
+  
+  const { register, handleSubmit, control, formState: { errors }, reset } = useForm<CategoryFormData>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
       categoryName: '',
       categoryTitle: '',
       categoryDescription: '',
-      image: null,
       metadata: [{ metaTitle: '', metaDescription: '', assignedCompany: '' }],
     }
   });
@@ -52,27 +54,40 @@ const AddNewCategory: React.FC = () => {
     { id: '5', name: 'Artema Medical' },
   ];
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    toast.success('Category added successfully!');
-    reset();
-    navigate('/catalog/categories');
+  // Fetch category data and populate form
+  useEffect(() => {
+    if (categoryId) {
+      axios.get(`/api/categories/${categoryId}`)
+        .then((response) => {
+          const categoryData = response.data;
+          reset({
+            categoryName: categoryData.categoryName,
+            categoryTitle: categoryData.categoryTitle,
+            categoryDescription: categoryData.categoryDescription,
+            metadata: categoryData.metadata || [{ metaTitle: '', metaDescription: '', assignedCompany: '' }],
+          });
+        })
+        .catch(() => {
+          toast.error('Failed to load category data');
+        });
+    }
+  }, [categoryId, reset]);
+
+  const onSubmit = (data: CategoryFormData) => {
+    axios.put(`/api/categories/${categoryId}`, data)
+      .then(() => {
+        toast.success('Category updated successfully!');
+        navigate('/catalog/categories');
+      })
+      .catch(() => {
+        toast.error('Failed to update category');
+      });
   };
-
-  const onError = () => {
-    toast.error('Please fill in all required fields');
-  };
-
-  // Get IDs of assigned companies
-  const assignedCompanyIds = fields.map(field => field.assignedCompany);
-
-  // Filter companies to show only unassigned ones
-  const availableCompanies = companies.filter(company => !assignedCompanyIds.includes(company.id));
 
   return (
     <div className="p-4 w-full mx-auto">
-      <h2 className="text-4xl font-semibold mb-8">Add Category</h2>
-      <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6">
+      <h2 className="text-4xl font-semibold mb-8">Edit Category</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <section className="border-b border-primary pb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -116,32 +131,16 @@ const AddNewCategory: React.FC = () => {
               <p className="text-red-500">{errors.categoryDescription.message}</p>
             )}
           </div>
-
-          {/* Image Upload Section */}
-          <div className="mt-3">
-            <Label htmlFor="image">Upload Image</Label>
-            <Input
-              type="file"
-              id="image"
-              {...register('image')}
-              accept="image/*"
-              className="mt-1"
-            />
-            {errors.image && (
-              <p className="text-red-500">{errors.image.message}</p>
-            )}
-          </div>
         </section>
 
         {fields.map((meta, index) => (
-          <div key={meta.id} className="space-y-4 pb-4">
+          <div key={meta.id} className="space-y-4 border-b border-primary pb-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor={`metaTitle-${index}`}>Meta Title</Label>
                 <Input
                   id={`metaTitle-${index}`}
                   {...register(`metadata.${index}.metaTitle`)}
-                  defaultValue={meta.metaTitle} // Ensure existing data is displayed
                   placeholder="Type Meta Title"
                   className="mt-1"
                 />
@@ -151,14 +150,13 @@ const AddNewCategory: React.FC = () => {
                 <Controller
                   name={`metadata.${index}.assignedCompany`}
                   control={control}
-                  defaultValue={meta.assignedCompany} // Ensure existing data is displayed
                   render={({ field }) => {
-                    // Calculate available companies specific to this index
+                    // Filter out companies that are already assigned in other fields
                     const currentAssignedIds = fields
-                      .filter((_, i) => i !== index) // Exclude current index to prevent filtering itself
-                      .map(f => f.assignedCompany);
+                      .filter((_, i) => i !== index)
+                      .map((field) => field.assignedCompany);
                     const filteredCompanies = companies.filter(
-                      company => !currentAssignedIds.includes(company.id)
+                      (company) => !currentAssignedIds.includes(company.id)
                     );
 
                     return (
@@ -170,7 +168,7 @@ const AddNewCategory: React.FC = () => {
                           <SelectValue placeholder="Select a company" />
                         </SelectTrigger>
                         <SelectContent>
-                          {filteredCompanies.map(company => (
+                          {filteredCompanies.map((company) => (
                             <SelectItem key={company.id} value={company.id}>
                               {company.name}
                             </SelectItem>
@@ -187,7 +185,6 @@ const AddNewCategory: React.FC = () => {
               <Textarea
                 id={`metaDescription-${index}`}
                 {...register(`metadata.${index}.metaDescription`)}
-                defaultValue={meta.metaDescription} // Ensure existing data is displayed
                 placeholder="Type Meta Description"
                 rows={3}
                 className="mt-1"
@@ -198,7 +195,6 @@ const AddNewCategory: React.FC = () => {
               <div className="flex justify-end">
                 <Button
                   type="button"
-                  variant={'secondary'}
                   onClick={() => remove(index)}
                 >
                   Remove Metadata
@@ -208,26 +204,20 @@ const AddNewCategory: React.FC = () => {
           </div>
         ))}
 
-
         <div className="flex justify-center">
-          <Button
-            type="button"
-            variant={'default'}
-            onClick={() => append({ metaTitle: '', metaDescription: '', assignedCompany: '' })}
-            disabled={availableCompanies.length === 1} // Disable button if no companies are left
-          >
-            <span className='pr-1'>Add MetaData</span>
-            <CirclePlus className='w-6 h-6' />
+          <Button type="button" onClick={() => append({ metaTitle: '', metaDescription: '', assignedCompany: '' })} className="text-4xl bg-primary pb-3">
+            +
           </Button>
         </div>
+        <span className="flex justify-center">Click to Assign more Meta Data</span>
 
         <div className="mt-6 flex justify-end">
           <Button type="submit" className="bg-primary text-white px-8 py-2 rounded">
-            Add Product
+            Update Category
           </Button>
         </div>
       </form>
     </div>
   );
 };
-export default AddNewCategory;
+export default EditCategory;
