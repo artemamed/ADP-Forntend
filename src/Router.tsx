@@ -20,6 +20,10 @@ import AddNewCompany from './pages/clients/company/add-new-company';
 import AddNewCategory from './pages/catalog/categories/add-new-category';
 import EditCategory from './pages/catalog/categories/edit-category';
 import EditCompanyProfile from './pages/clients/company/profile/edit';
+import AddSubCategory from './pages/catalog/sub-categories/add-sub-categories';
+import EditSubCategory from './pages/catalog/sub-categories/edit-sub-categories';
+import AddProduct from './pages/catalog/products/add-products';
+import EditProduct from './pages/catalog/products/edit-products';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +65,22 @@ const router = createBrowserRouter([
           {
             path: 'catalog/categories/edit-category',
             element: <EditCategory />,
+          },
+          {
+            path: 'catalog/sub-categories/add-sub-categories',
+            element: <AddSubCategory />,
+          },
+          {
+            path: 'catalog/sub-categories/edit-sub-categories',
+            element: <EditSubCategory />,
+          },
+          {
+            path: 'catalog/products/add-products',
+            element: <AddProduct />,
+          },
+          {
+            path: 'catalog/products/edit-products',
+            element: <EditProduct />,
           },
           {
             path: 'teams/operators',

@@ -19,31 +19,21 @@ const EachProduct: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEditCategory = () => {
-    navigate('/catalog/categories/edit-category');
-  };
-
-  const handleViewSubCategory = () => {
-    navigate('/catalog/sub-categories');
-  };
-
-  const handleViewCategory = () => {
-    navigate('/catalog/categories');
+    navigate('/catalog/products/edit-products');
   };
 
   return (
-    <Card className="">
+    <Card className="border-none">
       {/* Always visible Menubar */}
-      <div className="absolute -top-5 -right-6 ">
+      <div className="absolute -top-2 -right-6 ">
         <CardHeader className="text-center gap-2 ">
           <CardTitle className="flex justify-end items-end ">
-            <Menubar className='bg-secondary border-hidden shadow-none'>
+            <Menubar className=' border-hidden shadow-none'>
               <MenubarMenu>
                 <MenubarTrigger>
                   <EllipsisVertical className="h-5 w-5" />
                 </MenubarTrigger>
                 <MenubarContent>
-                  <MenubarItem onClick={handleViewCategory}>View Category</MenubarItem>
-                  <MenubarItem onClick={handleViewSubCategory}>View Sub Category</MenubarItem>
                   <MenubarItem onClick={handleEditCategory}>
                     Edit Product
                   </MenubarItem>

@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -84,7 +83,7 @@ const Products: React.FC = () => {
     <>
       <div className="flex flex-col sm:flex-row justify-between items-center">
         <Label className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-0">Products</Label>
-        <Link to="/catalog/categories/add-new-category">
+        <Link to="/catalog/products/add-products">
           <Button
             variant="expandIcon"
             Icon={CirclePlus}
@@ -96,54 +95,50 @@ const Products: React.FC = () => {
         </Link>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-4">
-        <div className="px-4 h-full overflow-y-auto w-full" id="productsSection">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-5">
+      <div className="flex flex-col lg:flex-row gap-6  ">
+        <div
+          className="px-6 h-full overflow-y-auto w-full "
+          id="productsSection"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6  ">
             {allProducts.map((product) => (
               <Card
                 key={product.id}
-                className="relative rounded-lg shadow-md hover:shadow-lg transition duration-300 bg-secondary"
+                className="relative shadow-lg hover:shadow-2xl transition-all duration-300"
               >
-                {/* EachProduct always visible in the top-right corner */}
                 <EachProduct />
 
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold tracking-tight">
+                  <CardTitle className="text-xl font-bold ">
                     {product.product_name}
                   </CardTitle>
                   <CardDescription>
                     <img
-                      alt="Product"
-                      className="object-contain h-auto rounded-2xl"
+                      alt={`${product.product_name}`}
+                      className="object-contain p-1 rounded-xl mt-2"
                       src={`/images/category.jpg`}
                     />
                   </CardDescription>
                 </CardHeader>
 
-                <CardContent className='-mt-3 ml-1'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse?
+                {/* Card Content */}
+                <CardContent className="">
+                  <p className="text-sm ">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse?
+                  </p>
 
-                  <div className="flex my-3 text-lg">
-                    <strong>Price:</strong>
-                    <div className="ml-3 text-primary font-semibold">
+                  <div className="flex items-center mt-1 text-lg">
+                    <strong className="">Price:</strong>
+                    <span className="ml-2 text-primary font-semibold">
                       ${product.price}
-                    </div>
+                    </span>
                   </div>
                 </CardContent>
-
-                <CardFooter className='-mt-5'>
-                  <Button className="w-full  bg-primary">
-                    Add to cart
-                  </Button>
-                </CardFooter>
               </Card>
-
-
             ))}
           </div>
         </div>
       </div>
-
     </>
   );
 };

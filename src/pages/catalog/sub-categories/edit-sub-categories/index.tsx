@@ -12,11 +12,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 // Schema for form validation
-const CategorySchema = z.object({
+const SubCategorySchema = z.object({
   categoryName: z.string().min(1, 'Category Name is required'),
   categoryTitle: z.string().min(1, 'Category Title is required'),
-  categoryDescription: z.string().min(1, 'Category Description is required'),
-  image: z.any().optional(),
   metadata: z.array(
     z.object({
       metaTitle: z.string().optional(),
@@ -26,19 +24,17 @@ const CategorySchema = z.object({
   ),
 });
 
-type CategoryFormData = z.infer<typeof CategorySchema>;
+type CategoryFormData = z.infer<typeof SubCategorySchema>;
 
-const EditCategory = () => {
+const EditSubCategory = () => {
   const navigate = useNavigate();
   const { categoryId } = useParams<{ categoryId: string }>();
-
+  
   const { register, handleSubmit, control, formState: { errors }, reset } = useForm<CategoryFormData>({
-    resolver: zodResolver(CategorySchema),
+    resolver: zodResolver(SubCategorySchema),
     defaultValues: {
       categoryName: '',
       categoryTitle: '',
-      categoryDescription: '',
-      image: '',
       metadata: [{ metaTitle: '', metaDescription: '', assignedCompany: '' }],
     }
   });
@@ -65,7 +61,6 @@ const EditCategory = () => {
           reset({
             categoryName: categoryData.categoryName,
             categoryTitle: categoryData.categoryTitle,
-            categoryDescription: categoryData.categoryDescription,
             metadata: categoryData.metadata || [{ metaTitle: '', metaDescription: '', assignedCompany: '' }],
           });
         })
@@ -88,12 +83,12 @@ const EditCategory = () => {
 
   return (
     <div className="p-4 w-full mx-auto">
-      <h2 className="text-4xl font-semibold mb-8">Edit Category</h2>
+      <h2 className="text-4xl font-semibold mb-8">Edit Sub Category</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <section className="border-b border-primary pb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="categoryName">Category Name</Label>
+              <Label htmlFor="categoryName">Sub Category Name</Label>
               <span className="text-red-500">*</span>
               <Input
                 id="categoryName"
@@ -102,11 +97,11 @@ const EditCategory = () => {
                 className="mt-1"
               />
               {errors.categoryName && (
-                <p className="text-red-500">{errors.categoryName.message as string}</p>
+                <p className="text-red-500">{errors.categoryName.message}</p>
               )}
             </div>
             <div>
-              <Label htmlFor="categoryTitle">Category Title</Label>
+              <Label htmlFor="categoryTitle">Sub Category Title</Label>
               <span className="text-red-500">*</span>
               <Input
                 id="categoryTitle"
@@ -115,37 +110,9 @@ const EditCategory = () => {
                 className="mt-1"
               />
               {errors.categoryTitle && (
-                <p className="text-red-500">{errors.categoryTitle.message as string}</p>
+                <p className="text-red-500">{errors.categoryTitle.message}</p>
               )}
             </div>
-          </div>
-          <div className="mt-3">
-            <Label htmlFor="categoryDescription">Category Description</Label>
-            <span className="text-red-500">*</span>
-            <Textarea
-              id="categoryDescription"
-              {...register('categoryDescription')}
-              placeholder="Type Product Description"
-              className="mt-1"
-              rows={3}
-            />
-            {errors.categoryDescription && (
-              <p className="text-red-500">{errors.categoryDescription.message as string}</p>
-            )}
-          </div>
-          {/* Image Upload Section */}
-          <div className="mt-3">
-            <Label htmlFor="image">Upload Image</Label>
-            <Input
-              type="file"
-              id="image"
-              {...register('image')}
-              accept="image/*"
-              className="mt-1"
-            />
-            {errors.image && (
-              <p className="text-red-500">{errors.image.message as string}</p>
-            )}
           </div>
         </section>
 
@@ -229,10 +196,11 @@ const EditCategory = () => {
 
         <div className="mt-6 flex justify-end">
           <Button type="submit" className="bg-primary text-white px-8 py-2 rounded">
-            Update Category
+            Update Sub Category
           </Button>
         </div>
       </form>
     </div>
   );
-}; export default EditCategory;
+};
+export default EditSubCategory;

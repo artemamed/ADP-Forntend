@@ -21,15 +21,11 @@ const EachSubCategory: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEditCategory = () => {
-    navigate('/catalog/categories/edit-category');
+    navigate('/catalog/sub-categories/edit-sub-categories');
   };
 
   const handleViewProduct = () => {
     navigate('/catalog/products');
-  };
-
-  const  handleViewCategory = () => {
-    navigate('/catalog/categories');
   };
 
   return (
@@ -43,7 +39,6 @@ const EachSubCategory: React.FC = () => {
                   <EllipsisVertical className="h-5 w-5 text-black" />
                 </MenubarTrigger>
                 <MenubarContent>
-                  <MenubarItem onClick={handleViewCategory}>View Category</MenubarItem>
                   <MenubarItem onClick={handleViewProduct}>View Products</MenubarItem>
                   <MenubarItem onClick={handleEditCategory}>
                     Edit Sub Category

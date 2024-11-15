@@ -223,7 +223,7 @@ const AddNewCategory: React.FC = () => {
 
         <div className="mt-6 flex justify-end">
           <Button type="submit" className="bg-primary text-white px-8 py-2 rounded">
-            Add Product
+            Add Category
           </Button>
         </div>
       </form>
